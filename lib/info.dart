@@ -1,70 +1,200 @@
 import 'package:flutter/material.dart';
+import 'top.dart';
 import 'bottom.dart';
-import 'about.dart'; // Import the AboutUsPage
 
 class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Our App',
-          style: TextStyle(backgroundColor: Color(0xFFFA870)),
-        ),
-        backgroundColor: Color(0xFFFA8072),
-        elevation: 0.0,
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/lg4.png', height: 100.0, width: 300.0), // LG4 logo
-              ],
-            ),
-            SizedBox(height: 50), // Add some vertical space
-            Text(
-              'About Us',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFFA8072), // Set color to blue
+      appBar: CustomAppBar(),
+      body: Container(
+        color: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Image.asset(
+                'assets/Heading.png',
+                width: double.infinity,
+                fit: BoxFit.cover, 
               ),
-            ),
-            SizedBox(height: 10), // Add some vertical space
-            Text(
-              'Welcome to our app! This app is designed to help users connect and engage with their communities. Whether you are a student or an alumni, this app provides a platform for networking, sharing information, and collaborating on various projects. With features like community forums, hackathons, internships, and more, users can stay updated with the latest events and opportunities in their field. Our goal is to foster a vibrant and supportive community where users can learn, grow, and succeed together.',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.black87, // Set color to black87
-              ),
-            ),
-           
-            SizedBox(height: 50), // Add some vertical space
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AboutUsPage()),
-                  );
-                },
-                child: Text(
-                  'See More',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Color(0xFFFA8072), // Set color to blue
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    
+                    SizedBox(height: 24.0),
+                    Text(
+                      'Don’t Miss Out!',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Container(
+                      height: 250.0,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset('assets/dress1.png', fit: BoxFit.cover),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset('assets/dress2.png', fit: BoxFit.cover),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset('assets/dress3.png', fit: BoxFit.cover),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset('assets/dress4.png', fit: BoxFit.cover),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset('assets/dress5.png', fit: BoxFit.cover),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+              // Add the full-width image here
+              
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Discover Your Path!',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildFeatureBox(
+                          color: Color(0xFF81C784),
+                          icon: Icons.school,
+                          title: 'Mentorship',
+                          subtitle: 'Learn from the Best Minds',
+                        ),
+                        _buildFeatureBox(
+                          color: Color(0xFF64B5F6),
+                          icon: Icons.work,
+                          title: 'Internships',
+                          subtitle: 'Kickstart Your Career Journey',
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildFeatureBox(
+                          color: Color.fromARGB(255, 206, 141, 175),
+                          icon: Icons.forum,
+                          title: 'Community Hub',
+                          subtitle: 'Connect, Share & Grow',
+                        ),
+                        _buildFeatureBox(
+                          color: Color(0xFF9575CD),
+                          icon: Icons.emoji_events,
+                          title: 'Get Involved',
+                          subtitle: 'Challenge Yourself & Shine',
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildFeatureBox(
+                          color: Color(0xFFA1887F),
+                          icon: Icons.star,
+                          title: 'Success Stories',
+                          subtitle: 'Fuel Your Ambition',
+                        ),
+                        _buildFeatureBox(
+                          color: Color.fromARGB(255, 238, 166, 112),
+                          icon: Icons.info,
+                          title: 'About Us',
+                          subtitle: 'Unveil Our Vision',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigation(),
+    );
+  }
+
+  Widget _buildFeatureBox({required Color color, required IconData icon, required String title, required String subtitle}) {
+    return Container(
+      width: 175,
+      height: 160,
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 40.0,
+            color: Colors.white,
+          ),
+          SizedBox(height: 8.0),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 4.0),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 14.0,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

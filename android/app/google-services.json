@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "25621128381",
+    "project_id": "crafted-hope",
+    "storage_bucket": "crafted-hope.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25621128381:android:95887032e27934840243d4",
+        "android_client_info": {
+          "package_name": "com.example.sls"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhLQ9_vqtBLhIArwAuYlGDCE0_ra_7ZnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

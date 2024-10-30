@@ -14,7 +14,6 @@ void main() async {
     projectId: 'crafted-hope',
     messagingSenderId: '1234567890',
     //measurementId: 'G-ABCDEFGH',
-    
   ),
 );
   runApp(MyApp());

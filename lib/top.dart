@@ -30,7 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.people,
-                  value: '/people_you_may_like', 
+                  value: '/people_you_may_like', // Update to use named route
                   text: 'People You May Like',
                 ),
                 _buildPopupMenuItem(
@@ -48,8 +48,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.event,
-                  value: '/events', // If you have a page for events
+                  value: '/events', 
                   text: 'Events',
+                ),
+                _buildPopupMenuItem(
+                  context,
+                  icon: Icons.logout,
+                  value: '/logout', 
+                  text: 'Logout',
                 ),
               ],
             ).then((value) {

@@ -1,14 +1,15 @@
 class Post {
-  final String title;
-  final String imageUrl;
   final String authorName;
-  final List<String> skills_req;
- final String applyLink;
+  final String applyLink;
+  final String companyName;
+  final String deadline; // New field for deadline
+   final String internshipRole;
+
   Post({
-    required this.title,
-    required this.imageUrl,
     required this.authorName,
-    required this.skills_req,
     required this.applyLink,
+    required this.companyName,
+    required this.deadline, // New field for deadline
+    required this.internshipRole,
   });
 }

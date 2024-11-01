@@ -9,15 +9,7 @@ import 'community.dart';
 import 'info.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-  options: FirebaseOptions(
-    appId: '1:25621128381:android:95887032e27934840243d4',
-    apiKey: 'AIzaSyDhLQ9_vqtBLhIArwAuYlGDCE0_ra_7ZnE',
-    projectId: 'crafted-hope',
-    messagingSenderId: '1234567890',
-    //measurementId: 'G-ABCDEFGH',
-  ),
-);
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -40,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/internship': (context) => InternshipsPage(),
         '/events': (context) => HackathonsPage(),
        // '/chat': (context) => PeoplePage(),
+
         // '/follow': (context) => UserProfilePage(),
       },
       debugShowCheckedModeBanner: false,

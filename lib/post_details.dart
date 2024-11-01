@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'post.dart';
 
@@ -47,3 +48,5 @@ class PostDetails extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> origin/master

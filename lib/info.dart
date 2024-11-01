@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sls/about.dart';
 import 'package:sls/community.dart';
-<<<<<<< HEAD
 import 'package:sls/events.dart';
-=======
-import 'package:sls/hackathons.dart';
->>>>>>> origin/master
 import 'package:sls/internships.dart';
 import 'package:sls/stories.dart';
 import 'top.dart';

@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
->>>>>>> origin/master
 import 'post.dart';
 import 'top.dart';
 import 'package:intl/intl.dart';
 import 'bottom.dart';
 
-<<<<<<< HEAD
-class InternshipsPage extends StatelessWidget {
-=======
 class InternshipsPage extends StatefulWidget {
->>>>>>> origin/master
   @override
   _InternshipsPageState createState() => _InternshipsPageState();
 }

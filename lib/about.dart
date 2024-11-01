@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'stories.dart';
-import 'hackathons.dart';
+import 'events.dart';
 import 'internships.dart';
 import 'bottom.dart';
 import 'top.dart';
@@ -26,7 +26,6 @@ class AboutUsPage extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  
                   HackathonsPage(),
                   StoriesPage(),
                   InternshipsPage(),

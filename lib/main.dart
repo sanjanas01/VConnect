@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sls/events.dart';
+import 'package:sls/internships.dart';
 import 'login.dart';
 import 'logout.dart';
 import 'mydetails.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/myaccount': (context) => MyDetailsPage(),
         '/community_forum': (context) => CommunityPage(),
+        '/internship': (context) => InternshipsPage(),
+        '/events': (context) => HackathonsPage(),
+       // '/chat': (context) => PeoplePage(),
         // '/follow': (context) => UserProfilePage(),
       },
       debugShowCheckedModeBanner: false,

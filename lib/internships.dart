@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'post.dart';
 import 'post_details.dart';
-
 
 class InternshipsPage extends StatelessWidget {
   @override

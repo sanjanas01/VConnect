@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-//import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'post.dart';
 
 class PostDetails extends StatelessWidget {

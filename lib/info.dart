@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sls/about.dart';
+import 'package:sls/community.dart';
+import 'package:sls/hackathons.dart';
+import 'package:sls/internships.dart';
+import 'package:sls/stories.dart';
 import 'top.dart';
 import 'bottom.dart';
 
@@ -22,7 +27,6 @@ class InfoPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     SizedBox(height: 24.0),
                     Text(
                       'Don’t Miss Out!',
@@ -79,7 +83,6 @@ class InfoPage extends StatelessWidget {
                   ],
                 ),
               ),
-              // Add the full-width image here
               
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -103,12 +106,24 @@ class InfoPage extends StatelessWidget {
                           icon: Icons.school,
                           title: 'Mentorship',
                           subtitle: 'Learn from the Best Minds',
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => MentorshipPage()),
+                            // );
+                          },
                         ),
                         _buildFeatureBox(
                           color: Color(0xFF64B5F6),
                           icon: Icons.work,
                           title: 'Internships',
                           subtitle: 'Kickstart Your Career Journey',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => InternshipsPage()),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -121,12 +136,24 @@ class InfoPage extends StatelessWidget {
                           icon: Icons.forum,
                           title: 'Community Hub',
                           subtitle: 'Connect, Share & Grow',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CommunityPage()),
+                            );
+                          },
                         ),
                         _buildFeatureBox(
                           color: Color(0xFF9575CD),
                           icon: Icons.emoji_events,
                           title: 'Get Involved',
                           subtitle: 'Challenge Yourself & Shine',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HackathonsPage()),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -139,12 +166,24 @@ class InfoPage extends StatelessWidget {
                           icon: Icons.star,
                           title: 'Success Stories',
                           subtitle: 'Fuel Your Ambition',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => StoriesPage()),
+                            );
+                          },
                         ),
                         _buildFeatureBox(
                           color: Color.fromARGB(255, 238, 166, 112),
                           icon: Icons.info,
                           title: 'About Us',
                           subtitle: 'Unveil Our Vision',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => AboutUsPage()),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -159,41 +198,44 @@ class InfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureBox({required Color color, required IconData icon, required String title, required String subtitle}) {
-    return Container(
-      width: 175,
-      height: 160,
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            icon,
-            size: 40.0,
-            color: Colors.white,
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
+  Widget _buildFeatureBox({required Color color, required IconData icon, required String title, required String subtitle, required Function() onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 175,
+        height: 160,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              icon,
+              size: 40.0,
               color: Colors.white,
             ),
-          ),
-          SizedBox(height: 4.0),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.white,
+            SizedBox(height: 8.0),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 4.0),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

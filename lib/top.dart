@@ -26,40 +26,41 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               context: context,
               position: RelativeRect.fromLTRB(1000.0, 45.0 + kToolbarHeight, 0.0, 0.0),
               items: [
-                _buildPopupMenuItem(
-                  context,
-                  icon: Icons.chat,
-                  value: 'chat',
-                  text: 'Chat',
-                ),
+                
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.people,
-                  value: 'ppl_you_may_like',
+                  value: '/people_you_may_like', // Update to use named route
                   text: 'People You May Like',
                 ),
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.forum,
-                  value: 'community_forum',
+                  value: '/community_forum',
                   text: 'Community Forum',
                 ),
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.work,
-                  value: 'internships',
+                  value: '/internship',
                   text: 'Internships',
                 ),
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.event,
-                  value: 'events',
+                  value: '/events', 
                   text: 'Events',
+                ),
+                _buildPopupMenuItem(
+                  context,
+                  icon: Icons.logout,
+                  value: '/logout', 
+                  text: 'Logout',
                 ),
               ],
             ).then((value) {
               if (value != null) {
-                print(value);
+                _handleMenuSelection(context, value);
               }
             });
           },
@@ -78,11 +79,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       value: value,
       child: Row(
         children: [
-          Icon(icon, color: Colors.black), 
-          SizedBox(width: 8.0), 
+          Icon(icon, color: Colors.black),
+          SizedBox(width: 8.0),
           Text(text),
         ],
       ),
     );
+  }
+
+  void _handleMenuSelection(BuildContext context, String value) {
+    Navigator.pushNamed(context, value);
   }
 }

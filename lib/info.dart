@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:sls/about.dart';
 import 'package:sls/community.dart';
 import 'package:sls/events.dart';
@@ -7,7 +8,31 @@ import 'package:sls/stories.dart';
 import 'top.dart';
 import 'bottom.dart';
 
-class InfoPage extends StatelessWidget {
+class InfoPage extends StatefulWidget {
+  @override
+  _InfoPageState createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
+  List<String> imageUrls = []; 
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchImages(); 
+  }
+
+  Future<void> _fetchImages() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('hacks').get();
+      setState(() {
+        imageUrls = snapshot.docs.map((doc) => doc['imageUrl'] as String).toList();
+      });
+    } catch (e) {
+      print("Error fetching images: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +45,7 @@ class InfoPage extends StatelessWidget {
               Image.asset(
                 'assets/Heading.png',
                 width: double.infinity,
-                fit: BoxFit.cover, 
+                fit: BoxFit.cover,
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -34,56 +59,29 @@ class InfoPage extends StatelessWidget {
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
+                        fontFamily: 'Gabriela-Regular', 
                       ),
                     ),
                     SizedBox(height: 16.0),
                     Container(
                       height: 250.0,
-                      child: ListView(
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          Padding(
+                        itemCount: imageUrls.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
                             padding: EdgeInsets.all(8.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.0),
-                              child: Image.asset('assets/dress1.png', fit: BoxFit.cover),
+                              child: Image.network(imageUrls[index], fit: BoxFit.cover), 
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.asset('assets/dress2.png', fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.asset('assets/dress3.png', fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.asset('assets/dress4.png', fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.asset('assets/dress5.png', fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
-              
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -95,6 +93,7 @@ class InfoPage extends StatelessWidget {
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
+                        fontFamily: 'Gabriela-Regular', 
                       ),
                     ),
                     SizedBox(height: 16.0),
@@ -106,12 +105,7 @@ class InfoPage extends StatelessWidget {
                           icon: Icons.school,
                           title: 'Mentorship',
                           subtitle: 'Learn from the Best Minds',
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => MentorshipPage()),
-                            // );
-                          },
+                          onTap: () {},
                         ),
                         _buildFeatureBox(
                           color: Color(0xFF64B5F6),
@@ -203,7 +197,7 @@ class InfoPage extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 175,
-        height: 160,
+        height: 180,
         padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: color,
@@ -224,6 +218,7 @@ class InfoPage extends StatelessWidget {
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
+                fontFamily: 'Gabriela-Regular', 
               ),
             ),
             SizedBox(height: 4.0),
@@ -232,6 +227,7 @@ class InfoPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.white,
+                fontFamily: 'Gabriela-Regular', 
               ),
             ),
           ],

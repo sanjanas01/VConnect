@@ -197,7 +197,7 @@ class _HackathonsPageState extends State<HackathonsPage> {
               SizedBox(height: 10),
               Text('Contact: ${post['contactNumber']}'),
               SizedBox(height: 10),
-              Text('Event Date: ${formatEventDate(post['eventDate'])}'), // Display formatted event date
+              Text('Event Date: ${formatEventDate(post['eventDate'])}'),
             ],
           ),
           actions: <Widget>[

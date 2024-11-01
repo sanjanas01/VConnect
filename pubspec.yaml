@@ -79,6 +79,10 @@ flutter:
     - assets/in3.png
     - assets/in4.png
     - assets/user_image.png
+    - assets/wall.png
+    - assets/aboutbg.png
+    - assets/chart.png
+    - assets/review.png
 
     
   fonts:

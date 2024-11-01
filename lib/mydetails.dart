@@ -29,7 +29,7 @@ class MyDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(logoutButton: true), // Pass true to indicate the presence of a logout button
+      appBar: CustomAppBar(), // Pass true to indicate the presence of a logout button
       body: FutureBuilder<User?>(
         future: FirebaseAuth.instance.authStateChanges().first,
         builder: (context, snapshot) {
@@ -105,27 +105,3 @@ class MyDetailsPage extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool logoutButton;
-
-  const CustomAppBar({Key? key, required this.logoutButton}) : super(key: key);
-
-  @override
-  Size get preferredSize => Size.fromHeight(50.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text('My Account'),
-      actions: [
-        if (logoutButton)
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
-            },
-          ),
-      ],
-    );
-  }
-}

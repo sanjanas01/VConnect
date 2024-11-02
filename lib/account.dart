@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sls/info.dart';
-import 'about.dart'; // Assuming HomePage is your home page widget
-
 
 class CreateAccountForm extends StatefulWidget {
   @override
@@ -16,13 +14,47 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-  String? userType; // Added field to track user type
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController skillController = TextEditingController();
+  final TextEditingController interestController = TextEditingController();
+
+  String? userType;
   String? branch;
   String? yearOfStudy;
-  String? skills;
-  bool? isWillingToGuide;
+  List<String> skills = [];
+  List<String> interests = [];
+  String? futureS; // For Students
+  String? futureA; // For Alumni
+
+  void addSkill() {
+    if (skillController.text.isNotEmpty) {
+      setState(() {
+        skills.add(skillController.text);
+        skillController.clear();
+      });
+    }
+  }
+
+  void addInterest() {
+    if (interestController.text.isNotEmpty) {
+      setState(() {
+        interests.add(interestController.text);
+        interestController.clear();
+      });
+    }
+  }
+
+  void removeSkill(int index) {
+    setState(() {
+      skills.removeAt(index);
+    });
+  }
+
+  void removeInterest(int index) {
+    setState(() {
+      interests.removeAt(index);
+    });
+  }
 
   Future<void> signUp(BuildContext context) async {
     try {
@@ -34,7 +66,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
         );
 
         await FirebaseFirestore.instance
-            .collection('users')
+            .collection('uservc')
             .doc(userCredential.user!.uid)
             .set({
           'name': nameController.text,
@@ -44,10 +76,11 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
           'branch': branch,
           'yearOfStudy': yearOfStudy,
           'skills': skills,
-          'isWillingToGuide': isWillingToGuide,
+          'interests': interests,
+          'futureS': futureS,
+          'futureA': futureA,
         });
 
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Account created successfully!'),
@@ -65,23 +98,22 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
           userType = null;
           branch = null;
           yearOfStudy = null;
-          skills = null;
-          isWillingToGuide = null;
+          skills.clear();
+          interests.clear();
+          futureS = null; 
+          futureA = null; 
         });
 
-        // Navigate to home page after successful registration
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => InfoPage()),
         );
       }
     } catch (e) {
-      // Handle registration errors here
       print('Error creating account: $e');
-      // Show error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to create account. Please try again.'),
+          content: Text('Failed to create account. Error: $e'),
           duration: Duration(seconds: 3),
         ),
       );
@@ -93,6 +125,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Account'),
+        backgroundColor: Color.fromARGB(255, 216, 228, 243),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -107,78 +140,71 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                   child: Image.asset('assets/logo2.png', height: 150.0, width: 150.0),
                 ),
                 SizedBox(height: 20.0),
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    labelText: 'Name *',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
+                _buildTextField(nameController, 'Name *'),
+                SizedBox(height: 16.0),
+                _buildTextField(emailController, 'Email *', keyboardType: TextInputType.emailAddress),
+                SizedBox(height: 16.0),
+                _buildTextField(phoneController, 'Phone Number *', keyboardType: TextInputType.phone),
+                SizedBox(height: 16.0),
+                _buildTextField(passwordController, 'Password *', obscureText: true),
+                SizedBox(height: 16.0),
+                _buildTextField(confirmPasswordController, 'Confirm Password *', obscureText: true),
+                SizedBox(height: 20.0),
+                Text('Skills *', style: TextStyle(fontSize: 16.0)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildTextField(skillController, 'Enter skill', isMandatory: false),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: addSkill,
+                      color: Colors.blue,
+                    ),
+                  ],
                 ),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email *',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: phoneController,
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number *',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password *',
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: confirmPasswordController,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password *',
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
+                Wrap(
+                  spacing: 8.0,
+                  children: List<Widget>.generate(skills.length, (index) {
+                    return Chip(
+                      label: Text(skills[index]),
+                      onDeleted: () => removeSkill(index),
+                      backgroundColor: Color.fromARGB(255, 216, 228, 243),
+                    );
+                  }),
                 ),
                 SizedBox(height: 20.0),
-                Text(
-                  'I am a',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                Text('Interests *', style: TextStyle(fontSize: 16.0)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildTextField(interestController, 'Enter interest', isMandatory: false),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: addInterest,
+                      color: Colors.blue,
+                    ),
+                  ],
                 ),
+                Wrap(
+                  spacing: 8.0,
+                  children: List<Widget>.generate(interests.length, (index) {
+                    return Chip(
+                      label: Text(interests[index]),
+                      onDeleted: () => removeInterest(index),
+                      backgroundColor: Color.fromARGB(255, 216, 228, 243),
+                    );
+                  }),
+                ),
+                SizedBox(height: 20.0),
+                _buildTextField(null, 'Branch *', onChanged: (value) {
+                  setState(() {
+                    branch = value;
+                  });
+                }),
+                SizedBox(height: 20.0),
+                Text('I am a', style: TextStyle(fontSize: 16.0)),
                 Row(
                   children: <Widget>[
                     Radio<String>(
@@ -187,6 +213,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                       onChanged: (value) {
                         setState(() {
                           userType = value;
+                          futureS = null; 
+                          futureA = null; 
                         });
                       },
                     ),
@@ -197,140 +225,118 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                       onChanged: (value) {
                         setState(() {
                           userType = value;
+                          futureS = null; 
+                          futureA = null;
                         });
                       },
                     ),
                     Text('Alumni'),
                   ],
                 ),
-                if (userType == 'Alumni') ...[
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Branch *',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your branch';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        branch = value;
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Are you working or pursuing higher studies? *',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your status';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
+                if (userType != null) ...[
+                  if (userType == 'Student') ...[
+                    _buildTextField(null, 'Year of Study *', onChanged: (value) {
                       setState(() {
                         yearOfStudy = value;
                       });
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Will you be willing to guide students? *',
+                    }),
+                    SizedBox(height: 15.0),
+                    Text('Are you interested in *', style: TextStyle(fontSize: 16.0)),
+                    Row(
+                      children: <Widget>[
+                        Radio<String>(
+                          value: 'Working',
+                          groupValue: futureS,
+                          onChanged: (value) {
+                            setState(() {
+                              futureS = value;
+                            });
+                          },
+                        ),
+                        Text('Working'),
+                        Radio<String>(
+                          value: 'Pursuing Higher Studies',
+                          groupValue: futureS,
+                          onChanged: (value) {
+                            setState(() {
+                              futureS = value;
+                            });
+                          },
+                        ),
+                        Text('Pursuing Higher Studies'),
+                      ],
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your willingness';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        isWillingToGuide = value.toLowerCase() == 'yes';
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'What subject skills do you have? *',
+                  ],
+                  if (userType == 'Alumni') ...[
+                    Text('Are you', style: TextStyle(fontSize: 16.0)),
+                    Row(
+                      children: <Widget>[
+                        Radio<String>(
+                          value: 'Working',
+                          groupValue: futureA,
+                          onChanged: (value) {
+                            setState(() {
+                              futureA = value;
+                            });
+                          },
+                        ),
+                        Text('Working'),
+                        Radio<String>(
+                          value: 'Pursuing Higher Studies',
+                          groupValue: futureA,
+                          onChanged: (value) {
+                            setState(() {
+                              futureA = value;
+                            });
+                          },
+                        ),
+                        Text('Pursuing Higher Studies'),
+                      ],
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your skills';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        skills = value;
-                      });
-                    },
-                  ),
-                ],
-                if (userType == 'Student') ...[
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Branch *',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your branch';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        branch = value;
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Year of Study *',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your year of study';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        yearOfStudy = value;
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'What subject skills do you have? *',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your skills';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        skills = value;
-                      });
-                    },
-                  ),
+                  ],
                 ],
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () => signUp(context),
-                  child: Text('Sign Up'),
+                  child: Text('Create Account'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 216, 228, 243)),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController? controller, String label, {
+      bool isMandatory = true,
+      TextInputType keyboardType = TextInputType.text,
+      bool obscureText = false,
+      Function(String)? onChanged,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      onChanged: (value) {
+        if (isMandatory) {
+          setState(() {
+            _formKey.currentState?.validate();
+          });
+        }
+        if (onChanged != null) onChanged(value);
+      },
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (isMandatory && (value == null || value.isEmpty)) {
+          return 'Please enter $label';
+        }
+        return null; 
+      },
     );
   }
 }

@@ -40,7 +40,7 @@ class _InternshipsPageState extends State<InternshipsPage> {
 
   Future<void> _fetchUserType() async {
     DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('uservc')
         .doc(_user!.uid)
         .get();
 

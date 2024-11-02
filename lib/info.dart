@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sls/about.dart';
 import 'package:sls/community.dart';
 import 'package:sls/events.dart';
@@ -14,12 +14,12 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
-  List<String> imageUrls = []; 
+  List<String> imageUrls = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchImages(); 
+    _fetchImages();
   }
 
   Future<void> _fetchImages() async {
@@ -48,7 +48,7 @@ class _InfoPageState extends State<InfoPage> {
                 fit: BoxFit.cover,
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -59,12 +59,12 @@ class _InfoPageState extends State<InfoPage> {
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontFamily: 'Gabriela-Regular', 
+                        fontFamily: 'Gabriela-Regular',
                       ),
                     ),
                     SizedBox(height: 16.0),
                     Container(
-                      height: 250.0,
+                      height: MediaQuery.of(context).size.width * 0.5, 
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: imageUrls.length,
@@ -73,7 +73,10 @@ class _InfoPageState extends State<InfoPage> {
                             padding: EdgeInsets.all(8.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(imageUrls[index], fit: BoxFit.cover), 
+                              child: Image.network(
+                                imageUrls[index],
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           );
                         },
@@ -93,19 +96,26 @@ class _InfoPageState extends State<InfoPage> {
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontFamily: 'Gabriela-Regular', 
+                        fontFamily: 'Gabriela-Regular',
                       ),
                     ),
                     SizedBox(height: 16.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       children: [
                         _buildFeatureBox(
                           color: Color(0xFF81C784),
                           icon: Icons.school,
                           title: 'Mentorship',
                           subtitle: 'Learn from the Best Minds',
-                          onTap: () {},
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => MentorshipPage()),
+                            // );
+                          },
                         ),
                         _buildFeatureBox(
                           color: Color(0xFF64B5F6),
@@ -119,12 +129,6 @@ class _InfoPageState extends State<InfoPage> {
                             );
                           },
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
                         _buildFeatureBox(
                           color: Color.fromARGB(255, 206, 141, 175),
                           icon: Icons.forum,
@@ -149,12 +153,6 @@ class _InfoPageState extends State<InfoPage> {
                             );
                           },
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
                         _buildFeatureBox(
                           color: Color(0xFFA1887F),
                           icon: Icons.star,
@@ -196,9 +194,10 @@ class _InfoPageState extends State<InfoPage> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 175,
+        margin: EdgeInsets.all(8.0),
         height: 180,
-        padding: EdgeInsets.all(16.0),
+        width:175,
+        padding: EdgeInsets.all(15.0),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10.0),
@@ -211,14 +210,14 @@ class _InfoPageState extends State<InfoPage> {
               size: 40.0,
               color: Colors.white,
             ),
-            SizedBox(height: 8.0),
+            SizedBox(height: 6.0),
             Text(
               title,
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontFamily: 'Gabriela-Regular', 
+                fontFamily: 'Gabriela-Regular',
               ),
             ),
             SizedBox(height: 4.0),
@@ -227,7 +226,7 @@ class _InfoPageState extends State<InfoPage> {
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.white,
-                fontFamily: 'Gabriela-Regular', 
+                fontFamily: 'Gabriela-Regular',
               ),
             ),
           ],

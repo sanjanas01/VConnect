@@ -63,7 +63,7 @@ class _StoriesPageState extends State<StoriesPage> {
   Future<void> _fetchCurrentUser() async {
     currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      final userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
+      final userDoc = await FirebaseFirestore.instance.collection('uservc').doc(currentUser!.uid).get();
       if (userDoc.exists) {
         currentUser = FirebaseAuth.instance.currentUser;
       }
@@ -72,7 +72,7 @@ class _StoriesPageState extends State<StoriesPage> {
   }
 
   Future<void> saveUserData(User user) async {
-    final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final userDoc = FirebaseFirestore.instance.collection('uservc').doc(user.uid);
 
     userDoc.set({
       'name': user.displayName,
@@ -85,9 +85,9 @@ class _StoriesPageState extends State<StoriesPage> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       String? heading = await _inputDialog(context, 'Enter a short heading');
-      String? description = await _inputDialog(context, 'Enter a description'); // New input for description
+      String? description = await _inputDialog(context, 'Enter a description'); 
       if (heading != null && description != null && currentUser != null) {
-        final userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
+        final userDoc = await FirebaseFirestore.instance.collection('uservc').doc(currentUser!.uid).get();
         String username = userDoc.data()?['name'] ?? 'Anonymous';
         _uploadImage(File(pickedFile.path), heading, description, currentUser!.displayName ?? username);
       }
@@ -241,7 +241,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
   Future<void> _addComment() async {
     if (_commentController.text.isNotEmpty && widget.currentUser != null) {
-      final userDoc = await FirebaseFirestore.instance.collection('users').doc(widget.currentUser!.uid).get();
+      final userDoc = await FirebaseFirestore.instance.collection('uservc').doc(widget.currentUser!.uid).get();
       String username = userDoc.data()?['name'] ?? 'Anonymous';
       String comment = '$username: ${_commentController.text}';
       widget.post['comments'].add(comment);

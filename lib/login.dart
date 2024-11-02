@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xFF818FB4),
           title: Text(
-            'Alumnate',
+            'VConnect',
             style: TextStyle(
               fontFamily: 'Gabriela-Regular',
               fontSize: 24.0,

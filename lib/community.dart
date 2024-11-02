@@ -50,14 +50,14 @@ class _CommunityPageState extends State<CommunityPage> {
 
   Future<void> _fetchJoinedGroups() async {
     if (_user != null) {
-      final userData = await _firestore.collection('users').doc(_user!.uid).get();
+      final userData = await _firestore.collection('uservc').doc(_user!.uid).get();
       final data = userData.data();
       if (data != null && data.containsKey('joinedGroups')) {
         setState(() {
           _joinedGroups = List<String>.from(data['joinedGroups']);
         });
       } else {
-        await _firestore.collection('users').doc(_user!.uid).set({
+        await _firestore.collection('uservc').doc(_user!.uid).set({
           'joinedGroups': _joinedGroups,
         }, SetOptions(merge: true));
       }
@@ -69,7 +69,7 @@ class _CommunityPageState extends State<CommunityPage> {
       try {
         if (!_joinedGroups.contains(groupName)) {
           _joinedGroups.add(groupName);
-          await _firestore.collection('users').doc(_user!.uid).update({
+          await _firestore.collection('uservc').doc(_user!.uid).update({
             'joinedGroups': _joinedGroups,
           });
           setState(() {});

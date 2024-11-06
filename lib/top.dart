@@ -30,7 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildPopupMenuItem(
                   context,
                   icon: Icons.people,
-                  value: '/people_you_may_like', // Update to use named route
+                  value: '/mentorship', 
                   text: 'People You May Like',
                 ),
                 _buildPopupMenuItem(

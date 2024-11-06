@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sls/top.dart';
 import 'bottom.dart';
+import 'pending_requests.dart';  
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +18,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase User Details',
       theme: ThemeData(
-        primaryColor:  Color(0xFF64B5F6),
-        scaffoldBackgroundColor:  Color(0xFF64B5F6),
+        primaryColor: Color(0xFF64B5F6),
+        scaffoldBackgroundColor: Color(0xFF64B5F6),
         textTheme: TextTheme(
           bodyLarge: TextStyle(color: Colors.black),
           bodyMedium: TextStyle(color: Colors.black),
-          titleMedium: TextStyle(fontFamily: 'Gabriela-Regular', color: Colors.blue), 
+          titleMedium: TextStyle(fontFamily: 'Gabriela-Regular', color: Colors.blue),
         ),
       ),
       home: MyDetailsPage(),
@@ -39,12 +40,16 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
 
+  int followersCount = 0;
+  int followingCount = 0;
+
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController();
     _phoneController = TextEditingController();
     _loadUserData();
+    _loadFollowCounts();
   }
 
   void _loadUserData() async {
@@ -61,6 +66,33 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
       }
     }
   }
+
+void _loadFollowCounts() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final uid = user.uid;
+
+    // Get the count of documents in the "followers" subcollection
+    QuerySnapshot followersSnapshot = await FirebaseFirestore.instance
+        .collection('uservc')
+        .doc(uid)
+        .collection('followers')
+        .get();
+    
+    // Get the count of documents in the "following" subcollection
+    QuerySnapshot followingSnapshot = await FirebaseFirestore.instance
+        .collection('uservc')
+        .doc(uid)
+        .collection('following')
+        .get();
+
+    setState(() {
+      followersCount = followersSnapshot.size; // Number of documents in "followers"
+      followingCount = followingSnapshot.size; // Number of documents in "following"
+    });
+  }
+}
+
 
   @override
   void dispose() {
@@ -134,6 +166,20 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
+                        ListTile(
+                          leading: Icon(Icons.group, color: Colors.blue),
+                          title: Text(
+                            'Followers: $followersCount',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.person_add, color: Colors.blue),
+                          title: Text(
+                            'Following: $followingCount',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
                         SizedBox(height: 20),
                         ElevatedButton.icon(
                           onPressed: () async {
@@ -153,13 +199,31 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
                           icon: Icon(Icons.edit),
                           label: Text('Edit Profile'),
                           style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white, backgroundColor:  Color(0xFF64B5F6),
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color(0xFF64B5F6),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
                         ),
                         SizedBox(height: 10),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => PendingRequestsPage()),
+                            );
+                          },
+                          icon: Icon(Icons.pending),
+                          label: Text('Pending Requests'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color(0xFF64B5F6),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -242,16 +306,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    _updateUserData();
+                                        _updateUserData();
                   },
                   child: Text('Save Changes'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor:  Color(0xFF64B5F6), // Change to blue
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  ),
                 ),
               ),
             ],
@@ -262,34 +319,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void _updateUserData() async {
-    String newName = _nameController.text.trim();
-    String newPhone = _phoneController.text.trim();
-
-    try {
-      final User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await FirebaseFirestore.instance.collection('uservc').doc(user.uid).update({
-          'name': newName,
-          'phone': newPhone,
-        });
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('User data updated successfully'),
-          duration: Duration(seconds: 2),
-        ));
-
-        Navigator.pop(context, true);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('User not found'),
-          duration: Duration(seconds: 2),
-        ));
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to update user data: $error'),
-        duration: Duration(seconds: 2),
-      ));
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final uid = user.uid;
+      await FirebaseFirestore.instance.collection('uservc').doc(uid).update({
+        'name': _nameController.text,
+        'phone': _phoneController.text,
+      });
+      Navigator.pop(context, true); // Return true to indicate success
     }
   }
 }

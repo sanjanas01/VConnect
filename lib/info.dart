@@ -5,6 +5,7 @@ import 'package:sls/community.dart';
 import 'package:sls/events.dart';
 import 'package:sls/internships.dart';
 import 'package:sls/stories.dart';
+import 'mentorship.dart';
 import 'top.dart';
 import 'bottom.dart';
 
@@ -111,10 +112,10 @@ class _InfoPageState extends State<InfoPage> {
                           title: 'Mentorship',
                           subtitle: 'Learn from the Best Minds',
                           onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => MentorshipPage()),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MentorshipPage()),
+                            );
                           },
                         ),
                         _buildFeatureBox(

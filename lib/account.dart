@@ -299,7 +299,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                 ElevatedButton(
                   onPressed: () => signUp(context),
                   child: Text('Create Account'),
-                  style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 216, 228, 243)),
+                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF818FB4)), // Button color set here
                 ),
               ],
             ),
@@ -310,26 +310,21 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
   }
 
   Widget _buildTextField(TextEditingController? controller, String label, {
-      bool isMandatory = true,
-      TextInputType keyboardType = TextInputType.text,
-      bool obscureText = false,
-      Function(String)? onChanged,
+    bool isMandatory = true,
+    TextInputType keyboardType = TextInputType.text,
+    bool obscureText = false,
+    Function(String)? onChanged,
   }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
-      onChanged: (value) {
-        if (isMandatory) {
-          setState(() {
-            _formKey.currentState?.validate();
-          });
-        }
-        if (onChanged != null) onChanged(value);
-      },
+      onChanged: onChanged,
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(),
+        fillColor: Color.fromARGB(255, 255, 255, 255), // Text box color set here
+        filled: true,
       ),
       validator: (value) {
         if (isMandatory && (value == null || value.isEmpty)) {

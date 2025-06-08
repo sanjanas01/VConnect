@@ -18,46 +18,18 @@ It addresses key challenges like lack of mentorship, difficulty in finding inter
 - Access insights on internships and hackathons
 - Event updates and centralized university-specific notices
 
+## Prerequisites
 
-## Technologies Used
+- Flutter SDK (v3.x or later)
+- Dart SDK
+- Firebase project with Firestore enabled
 
-- Flutter for the frontend
-- Firebase for authentication and database
-- Firestore for storing user data
+## Tech Stack
 
-
-## Installation
-
-dependencies:
-  flutter:
-    sdk: flutter
-  webview_flutter: ^2.0.13
-  url_launcher: ^6.0.0
-  flutter_native_splash: ^2.3.10
-  intl: ^0.17.0
-  flare_flutter: ^3.0.2
-  confetti: ^0.7.0
-  image_picker: ^1.0.7
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.17.4
-  cloud_firestore: ^4.15.5
-  firebase_storage: ^11.6.6
-  google_maps_flutter: ^2.1.0
-  geolocator: ^7.6.2
-  geocoding: ^2.0.1
-  google_geocoding_api: ^1.4.1
-  flutter_google_places: ^0.3.0
-  google_sign_in: ^5.2.1
-  file_picker: ^8.0.0+1
-
-These are the dependencies that has to installed from pub.dev
-
-fonts:
-    - family: Gabriela-Regular
-      fonts:
-        - asset: fonts/Gabriela-Regular.ttf
-
-This font has to be installed from Google Fonts
+- Flutter
+- Dart
+- Firebase Firestore
+- Material Design
 
 
 ## License
